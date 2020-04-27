@@ -1,0 +1,47 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ${{ matrix.os }}
+    name: '${{ matrix.os }}: build and test (docker: ${{ matrix.docker }})'
+    strategy:
+      matrix:
+          os: [ubuntu-latest]
+          docker: [false]
+          include:
+            - docker: true
+              os: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+  
+    - name: setup docker
+      if: docker
+      run: |
+        docker pull ubuntu:14.04
+        docker run -d --name docker_build --entrypoint="/usr/bin/tail" ubuntu:14.04 -f /dev/null
+        echo "::set-env name=SHELL_CMD::docker exec -i docker_build /bin/bash" 
+
+    - name: setup non-docker
+      if: ! docker
+      run: |
+        echo "::set-env name=SHELL_CMD::/bin/bash" 
+
+    - name: Run a one-line script
+      run: lsb-release -a
+      shell: ${{ env.SHELL_CMD }}
