@@ -44,4 +44,4 @@ jobs:
 
     - name: Run a one-line script
       run: lsb-release -a
-      shell: ${{ env.SHELL_CMD }}
+      shell: ${{ matrix.os }}
