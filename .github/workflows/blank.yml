@@ -30,18 +30,23 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
   
-    - name: setup docker
-      if: docker
-      run: |
-        docker pull ubuntu:14.04
-        docker run -d --name docker_build --entrypoint="/usr/bin/tail" ubuntu:14.04 -f /dev/null
-        echo "::set-env name=SHELL_CMD::docker exec -i docker_build /bin/bash" 
-
-    - name: setup non-docker
-      if: docker == false
-      run: |
-        echo "::set-env name=SHELL_CMD::/bin/bash" 
-
     - name: Run a one-line script
-      run: lsb-release -a
-      shell: ${{ matrix.os }}
+      run: |
+        mkdir build
+        touch build/file1
+        touch build/file2
+        
+    - uses: actions/upload-artifact@v1
+      with:
+        name: build_${{ matrix.docker }}
+        path: ${{github.workspace}}/build
+  test:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          path: ${{github.workspace}}/artifacts
+      - name: find
+        run: |
+          find ${{github.workspace}}/artifacts
