@@ -14,6 +14,7 @@ markdown
 
 ![test](https://drive.google.com/uc?export=download&id=19vliauxytZNGdBFN_bJS7qJKmqplIBMq)
 
+static files
 
 [![IS-04-01][IS-04-01-badge]][IS-04-01-sheet]
 [![IS-04-02][IS-04-02-badge]][IS-04-02-sheet]
@@ -24,8 +25,6 @@ markdown
 [![IS-07-02][IS-07-02-badge]][IS-07-02-sheet]
 [![IS-09-01][IS-09-01-badge]][IS-09-01-sheet]
 [![IS-09-02][IS-09-02-badge]][IS-09-02-sheet]
-
-static files
 
 [IS-04-01-badge]: https://www.birtles.org.uk/test/IS-04-01.svg
 [IS-04-02-badge]: https://www.birtles.org.uk/test/IS-04-02.svg
